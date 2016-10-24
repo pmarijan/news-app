@@ -20,11 +20,18 @@ public class News {
     private Integer id;
     private String title;
     private String text;
-    private Date date;
+    private Date date = new Date();
     private String category;
 
     //empty constructor should be there because of JPA
     protected News() {
+    }
+    
+    public News(Integer id, String title, String text, String category) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.category = category;
     }
     
     public News(Integer id, String title, String text, Date date, String category) {

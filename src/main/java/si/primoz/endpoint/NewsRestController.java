@@ -25,10 +25,9 @@ public class NewsRestController {
     private INewsRepository newsRepository;
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
     public News get(@PathVariable(value = "id", required = true) Integer id) {
-        return new News(1, "title", "content text", new Date(), "Category");
-        //TODO: return newsRepository.findOne(id);
+//        return new News(1, "title", "content text", new Date(), "Category");
+        return newsRepository.findOne(id);
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -38,20 +37,20 @@ public class NewsRestController {
     
     @RequestMapping
     public Iterable<News> getAll() {
-        List<News> news = Arrays.asList(new News(1, "title 1", "content text", new Date(), "Category 1"), 
-                                        new News(1, "title 2", "content text", new Date(), "Category 2"));
-        
-        return news;
-//        return newsRepository.findAll();
+        return newsRepository.findAll();
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public void update(@PathVariable(value = "id", required = true) Integer id, News news) {
-        newsRepository.save(news);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public News update(@PathVariable(value = "id", required = true) Integer id, 
+                        @RequestBody News news) {
+        
+        news.setId(id);
+        return newsRepository.save(news);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public News create(News news) {
+    @RequestMapping(method = RequestMethod.POST)
+    public News create(@RequestBody(required = true) News news) {
+        news.setId(null);
         return newsRepository.save(news);
     }
 }
