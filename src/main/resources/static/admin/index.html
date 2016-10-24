@@ -39,18 +39,17 @@
                         </tr>
                         <tr>
                             <td>Text:</td>
-                            <td><textarea name="text" ng-bind-html="text" ></textarea></td>
+                            <td><textarea name="text" ng-bind-html="text" required ></textarea></td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input type="submit" value="Submit" />
-                                <input type="button" value="Update" ng-click="create(selected)" />
+                                <input type="button" value="Create" ng-click="create(selected)" />
                             </td>
                         </tr>
                     </table>
 
                     <hr />
-                    {{ updateResponse }}
+                    {{ createResponse }}
                 </form>
             </div>
             
@@ -71,7 +70,7 @@
                         </tr>
                         <tr>
                             <td>Text:</td>
-                            <td><textarea name="text" ng-bind-html="selected.text" ></textarea></td>
+                            <td><textarea name="text" ng-bind-html="selected.text" required ></textarea></td>
                         </tr>
                         <tr>
                             <td colspan="2">
