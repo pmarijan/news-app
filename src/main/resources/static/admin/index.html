@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Hello AngularJS</title>
+    <title>Admin</title>
     <link href="/css/angular-bootstrap.css" rel="stylesheet" />
     <style type="text/css">
         [ng\:cloak], [ng-cloak], .ng-cloak {
@@ -14,8 +14,11 @@
     <div class="container">
         <h1>Admin</h1>
 
-        <div ng-controller="adminNews" ng-cloak class="ng-cloak">
-            <div style="float:left; margin-right: 20px;">
+        <div ng-init="getNewsList()" ng-controller="adminNews" ng-cloak class="ng-cloak">
+            <div style="float:left; margin-right: 20px; width: 350px;">
+                
+                <input type="submit" value="Add new" ng-click="showCreateForm()" ng-show="isNewsSelected" />
+                
                 <ul>
                     <li ng-repeat="item in newsList" ng-class="{active : isSelected(item)}">
                         <a ng-click="selectNews(item)">{{item.title}} | {{item.date}} | {{item.category}}</a>
@@ -27,23 +30,28 @@
             </div>
             
             <div ng-hide="isNewsSelected">
-                <form ng-submit="createNews()">
+                <form name="createForm" novalidate>
                     <table>
                         <tr>
                             <td>Title:</td>
-                            <td><input type="text" name="title" ng-model="title" required></td>
+                            <td>
+                                <input type="text" name="title" ng-model="news.title" ng-required="true" required>
+                            </td>
                         </tr>
                         <tr>
                             <td>Category:</td>
-                            <td><input type="text" name="category" ng-model="category" required /></td>
+                            <td><input type="text" name="category" ng-model="news.category" ng-required="true" required /></td>
                         </tr>
                         <tr>
                             <td>Text:</td>
-                            <td><textarea name="text" ng-bind-html="text" required ></textarea></td>
+                            <td><textarea name="text" ng-bind-html="text" ng-model="news.text" ng-required="true" required ></textarea></td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input type="button" value="Create" ng-click="create(selected)" />
+                                <input type="submit" ng-click="create(news)" value="Save" ng-disabled="createForm.$invalid" />
+                                <div role="alert">
+                                    <span class="error" ng-show="createForm.$error.required">All fields are required!</span>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -54,33 +62,34 @@
             </div>
             
             <div ng-show="isNewsSelected">
-                <form ng-submit="updateNews()">
+                <form name="updateForm" novalidate>
                     <table>
                         <tr>
                             <td>Title:</td>
-                            <td><input type="text" name="title" ng-model="selected.title" required></td>
+                            <td><input type="text" name="title" ng-model="selected.title" ng-required="true" required></td>
                         </tr>
                         <tr>
                             <td>Category:</td>
-                            <td><input type="text" name="category" ng-model="selected.category" required /></td>
+                            <td><input type="text" name="category" ng-model="selected.category" ng-required="true" required /></td>
                         </tr>
                         <tr>
                             <td>Date</td>
-                            <td><input type="text" name="category" ng-model="selected.date" required /></td>
+                            <td><input type="text" name="category" ng-model="selected.date" ng-required="true" required /></td>
                         </tr>
                         <tr>
                             <td>Text:</td>
-                            <td><textarea name="text" ng-bind-html="selected.text" required ></textarea></td>
+                            <td><textarea name="text" ng-bind-html="selected.text" ng-model="selected.text" ng-required="true" required ></textarea></td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input type="submit" value="Submit" />
-                                <input type="button" value="Update" ng-click="update(selected)" />
+                                <input type="submit" value="Update" ng-click="update(selected)" ng-disabled="createForm.$invalid" />
+                                <input type="button" value="Delete" ng-click="delete(selected)" />
                             </td>
                         </tr>
                     </table>
 
                     <hr />
+                    {{ deleteResponse }}
                     {{ updateResponse }}
                 </form>
             </div>
