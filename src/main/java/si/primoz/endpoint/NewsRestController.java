@@ -1,35 +1,35 @@
 package si.primoz.endpoint;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import si.primoz.domain.News;
-import si.primoz.dao.INewsRepository;
+import si.primoz.repository.INewsRepository;
 
 /**
  *
  * @author primoz
  */
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/api/news")
 public class NewsRestController {
     
     @Autowired
     private INewsRepository newsRepository;
     
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public News get(@PathVariable(name = "id", required = true) Integer id) {
-        return newsRepository.findOne(id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public News get(@PathVariable(value = "id", required = true) Integer id) {
+        return new News(1, "title", "content text", new Date(), "Category");
+        //TODO: return newsRepository.findOne(id);
     }
     
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(name = "id", required = true) Integer id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable(value = "id", required = true) Integer id) {
         newsRepository.delete(id);
     }
     
@@ -38,8 +38,8 @@ public class NewsRestController {
         return newsRepository.findAll();
     }
     
-    @RequestMapping(value = "{id}", method = RequestMethod.POST)
-    public void update(News news) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public void update(@PathVariable(value = "id", required = true) Integer id, News news) {
         newsRepository.save(news);
     }
 

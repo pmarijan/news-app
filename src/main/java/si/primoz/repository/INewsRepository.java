@@ -1,4 +1,4 @@
-package si.primoz.dao;
+package si.primoz.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import si.primoz.domain.News;
