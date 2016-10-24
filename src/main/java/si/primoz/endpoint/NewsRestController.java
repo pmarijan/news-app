@@ -1,7 +1,10 @@
 package si.primoz.endpoint;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -35,7 +38,11 @@ public class NewsRestController {
     
     @RequestMapping
     public Iterable<News> getAll() {
-        return newsRepository.findAll();
+        List<News> news = Arrays.asList(new News(1, "title 1", "content text", new Date(), "Category 1"), 
+                                        new News(1, "title 2", "content text", new Date(), "Category 2"));
+        
+        return news;
+//        return newsRepository.findAll();
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)

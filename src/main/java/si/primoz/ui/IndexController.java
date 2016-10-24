@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Created by pmarijan on 24.10.2016.
  */
-@Controller
+//@Controller
 public class IndexController {
 
-    @RequestMapping("/")
+//    @RequestMapping("/")
     String index() {
         return "index";
     }
