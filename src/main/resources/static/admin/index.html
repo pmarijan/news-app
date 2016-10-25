@@ -12,81 +12,72 @@
 
 <body ng-app="admin">
     <div class="container">
-        <h1>Admin</h1>
-
-        <div ng-init="getNewsList()" ng-controller="adminNews" ng-cloak class="ng-cloak">
-            <div style="float:left; margin-right: 20px; width: 350px;">
-                
-                <input type="submit" value="Add new" ng-click="showCreateForm()" ng-show="isNewsSelected" />
-                
-                <ul>
-                    <li ng-repeat="item in newsList" ng-class="{active : isSelected(item)}">
-                        <a ng-click="selectNews(item)">{{item.title}} | {{item.date}} | {{item.category}}</a>
+        <div class="page-header">
+            <h1>Admin</h1>
+        </div>
+<!--        http://www.w3schools.com/Bootstrap/bootstrap_list_groups.asp-->
+        <div ng-init="getNewsList()" ng-controller="adminNews" ng-cloak class="ng-cloak row">
+            <div class="col-sm-4">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="item in newsList" ng-class="{active : isSelected(item)}">
+                        {{item.category}}: {{item.title}}<span ng-click="selectNews(item)" class="badge">{{item.date}}</span>
                     </li>
-                    <li class="animate-repeat" ng-if="results.length === 0">
+                    <li class="animate-repeat list-group-item" ng-if="results.length === 0">
                         <strong>No news found...</strong>
                     </li>
                 </ul>
+                <hr />
+                <button type="submit" class="btn btn-default" ng-click="showCreateForm()" ng-disabled="!isNewsSelected">New news</button>
             </div>
             
-            <div ng-hide="isNewsSelected">
+            <div ng-hide="isNewsSelected" class="col-sm-8">
                 <form name="createForm" novalidate>
-                    <table>
-                        <tr>
-                            <td>Title:</td>
-                            <td>
-                                <input type="text" name="title" ng-model="news.title" ng-required="true" required>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Category:</td>
-                            <td><input type="text" name="category" ng-model="news.category" ng-required="true" required /></td>
-                        </tr>
-                        <tr>
-                            <td>Text:</td>
-                            <td><textarea name="text" ng-bind-html="text" ng-model="news.text" ng-required="true" required ></textarea></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input type="submit" ng-click="create(news)" value="Save" ng-disabled="createForm.$invalid" />
-                                <div role="alert">
-                                    <span class="error" ng-show="createForm.$error.required">All fields are required!</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" id="title" name="title" ng-model="news.title" ng-required="true" required >
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <input type="text" class="form-control" id="category" name="category" ng-model="news.category" ng-required="true" required >
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Text:</label>
+                        <textarea name="text" class="form-control" id="text" ng-bind-html="text" ng-model="news.text" ng-required="true" required ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default" ng-click="create(news)" ng-disabled="createForm.$invalid">Save</button>
+                    <div role="alert">
+                        <span class="error" ng-show="createForm.$error.required">All fields are required!</span>
+                    </div>
                     <hr />
                     {{ createResponse }}
                 </form>
             </div>
             
-            <div ng-show="isNewsSelected">
+            <div ng-show="isNewsSelected" class="col-sm-8">
                 <form name="updateForm" novalidate>
-                    <table>
-                        <tr>
-                            <td>Title:</td>
-                            <td><input type="text" name="title" ng-model="selected.title" ng-required="true" required></td>
-                        </tr>
-                        <tr>
-                            <td>Category:</td>
-                            <td><input type="text" name="category" ng-model="selected.category" ng-required="true" required /></td>
-                        </tr>
-                        <tr>
-                            <td>Date</td>
-                            <td><input type="text" name="category" ng-model="selected.date" ng-required="true" required /></td>
-                        </tr>
-                        <tr>
-                            <td>Text:</td>
-                            <td><textarea name="text" ng-bind-html="selected.text" ng-model="selected.text" ng-required="true" required ></textarea></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input type="submit" value="Update" ng-click="update(selected)" ng-disabled="updateForm.$invalid" />
-                                <input type="button" value="Delete" ng-click="delete(selected)" />
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="form-group">
+                        <label for="titleUpdate">Title:</label>
+                        <input type="text" class="form-control" id="titleUpdate" name="title" ng-model="selected.title" ng-required="true" required >
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryUpdate">Category:</label>
+                        <input type="text" class="form-control" id="categoryUpdate" name="category" ng-model="selected.category" ng-required="true" required >
+                    </div>
+                    <div class="form-group">
+                        <label for="dateUpdate">Date:</label>
+                        <input type="text" class="form-control" id="dateUpdate" name="date" ng-model="selected.date" ng-required="true" required >
+                    </div>
+                    <div class="form-group">
+                        <label for="textUpdate">Text:</label>
+                        <textarea name="text" class="form-control" id="textUpdate" ng-bind-html="selected.text" ng-model="selected.text" ng-required="true" required ></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-default" ng-click="update(selected)" ng-disabled="updateForm.$invalid">Save</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(selected)" >Delete</button>
+                    
+                    <div role="alert">
+                        <span class="error" ng-show="updateForm.$error.required">All fields are required!</span>
+                    </div>
 
                     <hr />
                     {{ deleteResponse }}
@@ -95,7 +86,7 @@
             </div>
         </div>
     </div>
-    
+    <script src="/webjars/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
     <script src="/js/angular-bootstrap.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-sanitize.min.js" type="text/javascript"></script>
     <script src="/js/admin.js"></script>

@@ -1,6 +1,8 @@
 package si.primoz.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,9 +20,18 @@ public class News {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+    
+    @Column(name = "title", nullable = false)
     private String title;
+    
+    @Column(name = "text", nullable = false)
     private String text;
+    
+    @Column(name = "date", nullable = false)
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date date = new Date();
+    
+    @Column(name = "category", nullable = false)
     private String category;
 
     //empty constructor should be there because of JPA
