@@ -2,6 +2,7 @@ package si.primoz.endpoint;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import si.primoz.domain.News;
 import si.primoz.service.NewsService;
@@ -11,34 +12,34 @@ import si.primoz.service.NewsService;
  * @author primoz
  */
 @RestController
-@RequestMapping("/api/news")
+@RequestMapping(value = "/api/news", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class NewsRestController {
     
     @Autowired
     private NewsService newsService;
     
-    @GetMapping(value = "/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public News get(@PathVariable(value = "id", required = true) Integer id) {
         return newsService.get(id);
     }
     
-    @DeleteMapping(value = "/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable(value = "id", required = true) Integer id) {
         newsService.delete(id);
     }
     
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public Iterable<News> getList() {
         return newsService.getList();
     }
     
-    @PutMapping(value = "/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public News update(@PathVariable(value = "id", required = true) Integer id, 
                         @RequestBody @Valid News news) {
         return newsService.update(id, news);
     }
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     public News create(@RequestBody(required = true) @Valid News news) {
         return newsService.create(news);
     }

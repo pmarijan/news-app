@@ -20,9 +20,22 @@ public class SwaggerConfig {
     @Bean
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  
-          .select()
-          .apis(RequestHandlerSelectors.any())  
-          .paths(PathSelectors.ant("/api/news*"))
-          .build();                                           
+            .groupName("news-api")
+            .select()
+            .apis(RequestHandlerSelectors.any()) 
+            .paths(PathSelectors.ant("/api/*"))
+            .build()
+            .apiInfo(apiInfo());                                           
     }
+    
+    private ApiInfo apiInfo() {
+        ApiInfo apiInfo = new ApiInfo("News API", 
+                "Api reading and managing news items.", 
+                null, 
+                null, 
+                "Primož Marijan", 
+                null, 
+                null);
+    return apiInfo;
+}
 }
