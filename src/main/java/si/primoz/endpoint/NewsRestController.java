@@ -12,7 +12,7 @@ import si.primoz.service.NewsService;
  * @author primoz
  */
 @RestController
-@RequestMapping(value = "/api/news", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/api/news")
 public class NewsRestController {
     
     @Autowired

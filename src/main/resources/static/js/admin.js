@@ -16,8 +16,6 @@ app.controller('adminNews', function($scope, $http) {
     };
 
     $scope.create = function(data) {
-        console.log(data);
-
         var item = JSON.stringify({"title":data.title, "category":data.category, "text":data.text});
         console.log(item);
         

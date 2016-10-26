@@ -5,11 +5,11 @@
 
     <groupId>si.primoz</groupId>
     <artifactId>news</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>news</name>
-    <description>News project for Spring Boot</description>
+    <description>News API service</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -58,17 +58,6 @@
             <artifactId>jquery</artifactId>
             <version>3.1.1</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>3.3.4</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>angularjs</artifactId>
-            <version>1.3.8</version>
-        </dependency>-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -81,6 +70,8 @@
     </dependencies>
 
     <build>
+        <finalName>news-api</finalName>
+        
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
