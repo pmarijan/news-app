@@ -14,8 +14,13 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import si.primoz.domain.Category;
+import si.primoz.service.NewsService;
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {NewsService.class})
 @DataJpaTest
 public class GetNewsTest {
     
@@ -23,33 +28,39 @@ public class GetNewsTest {
     private TestEntityManager entityManager;
 
     @Autowired
-    private INewsRepository newsRepository;
+    private NewsService newsService;
 
+    private Category category;
+    private News news;
+    
     @Before
     public void init() {
-        this.entityManager.persist(new News(null, "title", "text", "category"));
+        category = this.entityManager.persist(new Category(null, "category"));
+        news = this.entityManager.persist(new News(null, "title", "text", category));
     }
     
     @Test
     public void testOk() {
-        News news = this.newsRepository.findOne(1);
-        assertNotNull(news);
-        assertNotNull(news.getDate());
-        assertThat(news.getText()).isEqualTo("text");
-        assertThat(news.getTitle()).isEqualTo("title");
-        assertThat(news.getCategory()).isEqualTo("category");
+        News n = newsService.get(news.getId());
+        assertNotNull("News object must not be null!", n);
+        assertNotNull("News date must not be null!", n.getDate());
+        assertThat(n.getText()).isEqualTo("text");
+        assertThat(n.getTitle()).isEqualTo("title");
+        assertNotNull(n.getCategory());
+        assertThat(n.getCategory().getName()).isEqualTo(category.getName());
+        assertThat(n.getCategory().getId()).isEqualTo(category.getId());
     }
 
     @Test
     public void testNotExist() {
-        News news = this.newsRepository.findOne(4356641);
-        assertNull(news);
+        News news = this.newsService.get(4356641);
+        assertNull("News object must be null!", news);
     }
 
     @Test(expected = IllegalArgumentException.class)
     @Ignore
     public void testIdNull() {
-        this.newsRepository.findOne(null);
+        this.newsService.get(null);
 
     }
 }

@@ -13,14 +13,15 @@
 <body ng-app="news">
     <div class="container">
         <div class="page-header">
-            <h1>News</h1>
-            <a href="/admin/index.html" ><span class="glyphicon glyphicon-user glyphicon-align-right" aria-hidden="true"></span></a>
+            <h1>
+                News <a href="/admin/index.html" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+            </h1>
         </div>
         <div ng-controller="list" ng-cloak class="ng-cloak row">
             <div class="col-sm-4">
                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="item in newsList" ng-class="{active : isSelected(item)}">
-                        {{item.category}}: {{item.title}}<span ng-click="selectNews(item)" class="badge">{{item.date}}</span>
+                    <li class="list-group-item" ng-repeat="item in newsList" ng-class="{active : isSelected(item)}" ng-click="selectNews(item)">
+                        {{item.title}}<span class="badge alert-info">{{item.date}}</span><span class="badge">{{item.category.name}}</span>
                     </li>
                     <li class="animate-repeat list-group-item" ng-if="results.length === 0">
                         <strong>No news found...</strong>
@@ -29,10 +30,6 @@
             </div>
 
             <div ng-show="isNewsSelected" class="col-sm-8">
-<!--                <div class="form-group form-control">
-                    <label class="form-control-static" ng-bind-html="selected.text"/>
-                </div>-->
-
                 <div class="panel panel-default">
                     <div class="panel-body" ng-bind-html="selected.text" ></div>
                 </div>

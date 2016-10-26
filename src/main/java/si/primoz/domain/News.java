@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -21,31 +25,37 @@ public class News {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
     
+    @NotEmpty(message = "error.news.title.not.empt")
+    @NotNull(message = "error.news.title.not.null")
     @Column(name = "title", nullable = false)
     private String title;
     
+    @NotEmpty(message = "error.news.text.not.empt")
+    @NotNull(message = "error.news.text.not.null")
     @Column(name = "text", nullable = false)
     private String text;
     
+    @NotNull(message = "error.news.date.not.null")
     @Column(name = "date", nullable = false)
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date date = new Date();
     
-    @Column(name = "category", nullable = false)
-    private String category;
+    @NotNull(message = "error.news.category.not.null")
+    @ManyToOne(optional = false, targetEntity = Category.class)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    //empty constructor should be there because of JPA
     protected News() {
     }
     
-    public News(Integer id, String title, String text, String category) {
+    public News(Integer id, String title, String text, Category category) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.category = category;
     }
     
-    public News(Integer id, String title, String text, Date date, String category) {
+    public News(Integer id, String title, String text, Date date, Category category) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -85,11 +95,11 @@ public class News {
         this.date = date;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

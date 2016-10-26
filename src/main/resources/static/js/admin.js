@@ -2,6 +2,13 @@ var app = angular.module("admin", ['ngSanitize']);
 
 app.controller('adminNews', function($scope, $http) {
     
+    $scope.categoriesList = function() {
+        $http.get('/api/categories').success(function(data) {
+            console.log(data);
+            $scope.categories = data;
+        });
+    };
+    
     $scope.getNewsList = function() {
             $http.get('/api/news').success(function(data) {
             $scope.newsList = data;

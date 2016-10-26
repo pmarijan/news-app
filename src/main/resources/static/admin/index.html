@@ -15,14 +15,14 @@
         <div class="page-header">
             <h1>Admin</h1>
         </div>
-<!--        http://www.w3schools.com/Bootstrap/bootstrap_list_groups.asp-->
+
         <div ng-init="getNewsList()" ng-controller="adminNews" ng-cloak class="ng-cloak row">
             <div class="col-sm-4">
                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="item in newsList" ng-class="{active : isSelected(item)}">
-                        {{item.category}}: {{item.title}}<span ng-click="selectNews(item)" class="badge">{{item.date}}</span>
+                    <li class="list-group-item" ng-repeat="item in newsList" ng-class="{active : isSelected(item)}" ng-click="selectNews(item)">
+                        {{item.title}}<span class="badge alert-info">{{item.date}}</span><span class="badge">{{item.category.name}}</span>
                     </li>
-                    <li class="animate-repeat list-group-item" ng-if="results.length === 0">
+                    <li class="animate-repeat list-group-item" ng-hide="newsList.length">
                         <strong>No news found...</strong>
                     </li>
                 </ul>
@@ -36,20 +36,27 @@
                         <label for="title">Title:</label>
                         <input type="text" class="form-control" id="title" name="title" ng-model="news.title" ng-required="true" required >
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-init="categoriesList()">
                         <label for="category">Category:</label>
-                        <input type="text" class="form-control" id="category" name="category" ng-model="news.category" ng-required="true" required >
+                        <select ng-options="cat.name for cat in categories track by cat.id" class="form-control" id="category" name="category" ng-model="news.category" ng-required="true" required >
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="text">Text:</label>
                         <textarea name="text" class="form-control" id="text" ng-bind-html="text" ng-model="news.text" ng-required="true" required ></textarea>
                     </div>
+                    
                     <button type="submit" class="btn btn-default" ng-click="create(news)" ng-disabled="createForm.$invalid">Save</button>
-                    <div role="alert">
-                        <span class="error" ng-show="createForm.$error.required">All fields are required!</span>
+                    
+                    <br />
+                    <div role="alert" class="form-group">
+                        <span class="alert-warning" ng-show="createForm.$error.required">All fields are required!</span>
+                    </div>
+                    <div role="alert" class="form-group">
+                        <span class="alert-info">{{ createResponse }}</span>
                     </div>
                     <hr />
-                    {{ createResponse }}
+                    
                 </form>
             </div>
             
@@ -59,9 +66,10 @@
                         <label for="titleUpdate">Title:</label>
                         <input type="text" class="form-control" id="titleUpdate" name="title" ng-model="selected.title" ng-required="true" required >
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-init="categoriesList()">
                         <label for="categoryUpdate">Category:</label>
-                        <input type="text" class="form-control" id="categoryUpdate" name="category" ng-model="selected.category" ng-required="true" required >
+                        <select ng-options="cat.name for cat in categories track by cat.id" class="form-control" id="categoryUpdate" name="category" ng-model="selected.category" ng-required="true" required > 
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="dateUpdate">Date:</label>
@@ -72,16 +80,18 @@
                         <textarea name="text" class="form-control" id="textUpdate" ng-bind-html="selected.text" ng-model="selected.text" ng-required="true" required ></textarea>
                     </div>
                     
-                    <button type="submit" class="btn btn-default" ng-click="update(selected)" ng-disabled="updateForm.$invalid">Save</button>
+                    <button type="submit" class="btn btn-default" ng-click="update(selected)" ng-disabled="updateForm.$invalid">Update</button>
                     <button type="button" class="btn btn-default" ng-click="delete(selected)" >Delete</button>
                     
-                    <div role="alert">
-                        <span class="error" ng-show="updateForm.$error.required">All fields are required!</span>
+                    <br />
+                    <div role="alert" class="form-group">
+                        <span class="alert-warning" ng-show="updateForm.$error.required">All fields are required!</span>
                     </div>
-
+                    <div role="alert" class="form-group">
+                        <span class="alert-info" >{{ deleteResponse }}{{ updateResponse }}</span>
+                    </div>
                     <hr />
-                    {{ deleteResponse }}
-                    {{ updateResponse }}
+
                 </form>
             </div>
         </div>
