@@ -70,7 +70,7 @@
     </dependencies>
 
     <build>
-        <finalName>news-api</finalName>
+        <finalName>news-service</finalName>
         
         <resources>
             <resource>
