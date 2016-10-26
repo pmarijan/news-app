@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -35,9 +37,10 @@ public class News {
     @Column(name = "text", nullable = false)
     private String text;
     
-    @NotNull(message = "error.news.date.not.null")
-    @Column(name = "date", nullable = false)
     @JsonFormat(pattern="dd-MM-yyyy")
+    @NotNull(message = "error.news.date.not.null")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date", nullable = false)
     private Date date = new Date();
     
     @NotNull(message = "error.news.category.not.null")
