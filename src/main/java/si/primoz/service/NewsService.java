@@ -39,6 +39,8 @@ public class NewsService {
     public News create(News news) {
         LOG.info("BEGIN (news={})", news);
         
+        Objects.requireNonNull(news, "Parameter news must not be null!");
+        
         //set id to null because we want to create new record, not update existing one
         news.setId(null);
 

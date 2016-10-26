@@ -1,5 +1,6 @@
 package si.primoz.endpoint;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import si.primoz.domain.News;
@@ -16,29 +17,29 @@ public class NewsRestController {
     @Autowired
     private NewsService newsService;
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public News get(@PathVariable(value = "id", required = true) Integer id) {
         return newsService.get(id);
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id", required = true) Integer id) {
         newsService.delete(id);
     }
     
-    @RequestMapping
+    @GetMapping
     public Iterable<News> getList() {
         return newsService.getList();
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public News update(@PathVariable(value = "id", required = true) Integer id, 
-                        @RequestBody News news) {
+                        @RequestBody @Valid News news) {
         return newsService.update(id, news);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public News create(@RequestBody(required = true) News news) {
+    @PostMapping
+    public News create(@RequestBody(required = true) @Valid News news) {
         return newsService.create(news);
     }
 }
