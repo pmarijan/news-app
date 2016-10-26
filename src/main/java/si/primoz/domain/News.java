@@ -39,7 +39,6 @@ public class News {
     
     @JsonFormat(pattern="dd-MM-yyyy")
     @NotNull(message = "error.news.date.not.null")
-    @Temporal(TemporalType.DATE)
     @Column(name = "date", nullable = false)
     private Date date = new Date();
     
