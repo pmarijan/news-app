@@ -115,3 +115,39 @@ app.controller('adminNews', function($scope, $http) {
     };
 
 });
+
+app.controller('admin_navigation', function($rootScope, $window, $http) {
+    var self = this;
+    
+    self.logout = function () {
+        $http.post('/logout', {}).finally(function () {
+            $rootScope.authenticated = false;
+            $window.location.href = '/';
+//            $location.path("/");
+        });
+    };
+    
+    self.home = function() {
+        $window.location.href = '/';
+    };
+    
+    var authenticate = function (credentials, callback) {
+        var headers = credentials ? {authorization: "Basic "
+                    + btoa(credentials.username + ":" + credentials.password)
+        } : {};
+
+        $http.get('/user', {headers: headers}).then(function (response) {
+            if (response.data.name) {
+                $rootScope.authenticated = true;
+            } else {
+                $rootScope.authenticated = false;
+            }
+            callback && callback();
+        }, function () {
+            $rootScope.authenticated = false;
+            callback && callback();
+        });
+    };
+    
+    authenticate();
+});
